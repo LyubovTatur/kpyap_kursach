@@ -4,49 +4,44 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float moveTime = 0.1f;           //Time it will take object to move, in seconds.
     public float speed;
-    float x;
-    float y;
-    Vector3 move;
+    private Rigidbody2D rb;
+    private Vector2 moveVelosity;
+    public int yams;
+    public int bag;
+    public GameObject gameObject1;
     void Start()
     {
-        
+        yams = 0;
+        bag = 0;
+        rb = GetComponent<Rigidbody2D>();
+        Instantiate(gameObject1, new Vector2(Random.Range(0, 5), Random.Range(0, 5)), Quaternion.identity);
+
     }
 
     void Update()
     {
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horisontal"), Input.GetAxis("Vertical"));
-        move = moveInput.normalized * speed;
-        x = transform.position.x;
-        y = transform.position.y;
-        if (Input.GetKeyDown (KeyCode.W) )
-        {
-            
-            transform.position = new Vector2(x,y+1);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-
-            transform.position = new Vector2(x, y - 1);
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            
-            transform.position = new Vector2(x+1, y);
-            
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-
-            transform.position = new Vector2(x- 1, y );
-
-        }
+        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        moveVelosity = moveInput.normalized * speed;
     }
     void FixedUpdate()
     {
-        // Vector2 movement_vector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        // transform.Translate(Vector3.forward * Time.deltaTime * 0.1);
-        GetComponent<Rigidbody2D>().MovePosition(transform.position + move * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + moveVelosity * Time.fixedDeltaTime);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        print(collision.transform.name);
+        if (collision.transform.name.Contains("test_yam"))
+        {
+            yams++;
+            Instantiate(gameObject1, new Vector2(Random.Range(0, 7), Random.Range(-4, 0)), Quaternion.identity);
+
+        }
+        if (collision.transform.name.Contains("test_bag"))
+        {
+            bag += yams;
+            yams = 0;
+
+        }
     }
 }

@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\bot.cs" />
+    <Compile Include="Assets\Scripts\test_yam.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Unityy/2019.4.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
